@@ -125,13 +125,16 @@ module.exports = {
       `;
         while(i<rows){
             j=0;
-            date += `<tr align="center">
-            `
+            date += `<tr align="center"><form action="/submitted">`
             while(j<7){
-                date+=`<td>${String(month_now[i][j])}</td>`
+                date+=`<td>${String(month_now[i][j])}`;
+                if(month_now[i][j]!=' '){
+                date+=`<input type="checkbox" name="day${String(month_now[i][j])}" value=${month_now[i][j]}>`;
+                }
+                date+=`</td>`;
                 j+=1;
             }
-            date+=`</tr>`
+            date+=`</form></tr>`
             i+=1;
         }
         date+=`</table>`
