@@ -105,7 +105,8 @@ module.exports = {
         var rows = (month_now.length);
         var i=0;
         var j=0;
-        var date = `        
+        console.log("I'm working");
+        var date = `       
         <table border="1" bordercolor="blue" width="500" height = "300">
         <tr id="yearBlock">
         <p><td colspan = "7"  style="color:black" align="center">${year}년</td></p>
@@ -125,40 +126,89 @@ module.exports = {
       `;
         while(i<rows){
             j=0;
-            date += `<tr align="center"><form action="/submitted">`
+            date += `<tr align="center">`
             while(j<7){
-                date+=`<td>${String(month_now[i][j])}`;
                 if(month_now[i][j]!=' '){
-                date+=`<input type="checkbox" name="day${String(month_now[i][j])}" value=${month_now[i][j]}>`;
+                    date+=`<td class="day" id ="day${String(month_now[i][j])}">${String(month_now[i][j])}`;
+                }
+                else{
+                    date+=`<td class="blank">`;
                 }
                 date+=`</td>`;
                 j+=1;
             }
-            date+=`</form></tr>`
+            date+=`</tr>`;
             i+=1;
         }
-        date+=`</table>`
+        date+=`</table>`;
+        date+=`<input type="button" onclick="sendDataArray()">`
         return date;
     },
     button: `
-    <form action="/calander">
+    
+    <h3 class="select_date_button">select date</h3>
+    <form class="select_date_button" action="/calander">
         <input type="text" placeholder="year" name="year"> 
         <input type="text" placeholder="month" name="month"> 
         <input type="submit">
     </form>`,
     templateHtml : function(date){
         var button = this.button;
-        return `<!DOCTYPE html>
+        return `
+        <!DOCTYPE html>
         <html>
         <head>
         <meta charset="utf-8">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
         <title>calander</title>
         <link rel="stylesheet" href="style.css">
+        <style>
+            .selected{
+                color:white;
+                background-color:blue;
+            }
+        </style>
         </head>
         <body>
         <h3>달력 자동 생성 프로그램 by 김도현</h3>
         ${date}
         ${button}
+        
+        <script>
+        
+            var dataArray= new Array(33);
+            dataArray.fill(0);
+            $(document).ready(function () {
+                $("td.day").on("click", function () {
+                    $(this).toggleClass("selected");
+                    // $(".select_data_button).remove();
+                    var numId = parseInt(this.id.slice(3));
+                    if(dataArray[numId]==1) {
+                        dataArray[numId]=0;
+                    }
+                    else{
+                        dataArray[numId]=1;
+                    }
+                    var i=0;
+                    while(i<33){
+                        console.log(dataArray[i]);
+                        i+=1;
+                    }
+                });
+            });
+
+            sendDataArray(this){
+                var i=0;
+                
+                while(i<33){
+                    if(i==1){
+
+                    }
+                    i+=1;
+                }
+                dataArray
+            }
+        </script>
         </body>
         </html>`
     }
